@@ -6,6 +6,7 @@ import { cancelEmployee } from "../../store/EployeeSlice";
 import EditModal from "../EditModal/EditModal";
 
 const Hero = () => {
+  
   const dispatch = useDispatch();
 
   const cancelHandler = (elId) => {
@@ -116,7 +117,9 @@ const Hero = () => {
                           <button
                             className="hero__close"
                           >
-                            <i className="bx bx-x" />
+                            <i 
+                            onClick={() => cancelHandler(item.id)}
+                            className="bx bx-x" />
                           </button>
                         </div>
                       </td>

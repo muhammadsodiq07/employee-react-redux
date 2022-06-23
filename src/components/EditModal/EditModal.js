@@ -79,6 +79,7 @@ const EditModal = () => {
                     placeholder="Email"
                     value={email}
                     required
+                    onChange={(e) => selEmail(e.target.value)}
                   />
                 </div>
                 <div className="hero__modal-input-box">
@@ -142,7 +143,7 @@ const EditModal = () => {
                     </label>
                   </div>
                 </div>
-                <div>
+                {/* <div>
                   <input
                     className="form-control input-department edit-department"
                     list="datalistOptions"
@@ -157,7 +158,7 @@ const EditModal = () => {
                     <option value="Accounting"></option>
                     <option value="HR"></option>
                   </datalist>
-                </div>
+                </div> */}
                 <div className="date-class">
                   <input type="date" defaultValue="2017-06-01" />
                 </div>

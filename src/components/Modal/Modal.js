@@ -153,7 +153,7 @@ const Modal = () => {
                       </label>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <input
                       className="form-control input-department"
                       list="datalistOptions"
@@ -168,7 +168,7 @@ const Modal = () => {
                       <option value="Accounting"></option>
                       <option value="HR"></option>
                     </datalist>
-                  </div>
+                  </div> */}
                   <div className="date-class">
                     <input type="date" defaultValue="2017-06-01" />
                   </div>
