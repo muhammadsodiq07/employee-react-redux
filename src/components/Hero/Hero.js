@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import "./Hero.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,12 @@ import EditModal from "../EditModal/EditModal";
 const Hero = () => {
   
   const dispatch = useDispatch();
+
+  const [id, setId] = useState();
+
+  const idEditHandler = (elId) => {
+    setId(elId);
+  }
 
   const cancelHandler = (elId) => {
     dispatch(cancelEmployee({ id: elId }));
@@ -104,13 +110,14 @@ const Hero = () => {
                       <td class="td-name">{item.name}</td>
                       <td>{item.email}</td>
                       <td>{item.number}</td>
-                      <td>Frontend developer</td>
+                      <td>{item.department}</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <button
                             className="hero__pen"
                             data-bs-toggle="modal"
                             data-bs-target="#staticBackdropEdit"
+                            onClick={() => idEditHandler(item.id)}
                           >
                             <i className="bx bx-pencil" />
                           </button>
@@ -132,7 +139,9 @@ const Hero = () => {
         </div>
       </div>
       <Modal />
-      <EditModal/>
+      <EditModal id={id}
+      setId={setId}
+      />
     </div>
   );
 };

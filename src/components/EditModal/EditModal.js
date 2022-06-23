@@ -3,35 +3,36 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editEmployee } from "../../store/EployeeSlice";
 
-const EditModal = () => {
+const EditModal = ({ id, setId }) => {
   const dispatch = useDispatch();
 
+
+  const editHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      editEmployee({obj : tempObj})
+    )
+  }
   const employee = useSelector((state) => state.employee);
 
-  let [id, setId] = useState();
-  let [name, setName] = useState();
-  let [email, selEmail] = useState();
-  let [number, setNumber] = useState();
+  let [tempObj, setTempObj] = useState([]);
 
   useEffect(() => {
-    employee.map((element) => {
-      setId(element.id);
-      setName(element.name);
-      selEmail(element.email);
-      setNumber(element.number);
+    employee.filter((item) => {
+      if (+item.id === +id) {
+        setTempObj({
+          id: item.id,
+          name: item.name,
+          email: item.email,
+          number: item.number,
+          department: item.department,
+        });
+      }
     });
-  }, []);
+  }, [id]);
 
-  const editHandler = () => {
-    dispatch(
-      editEmployee({
-        elId: id,
-        elName: name,
-        elEmail: email,
-        elNumber: number,
-      })
-    );
-  };
+
+
   return (
     <div
       className="modal fade"
@@ -67,8 +68,10 @@ const EditModal = () => {
                     name="full name"
                     placeholder="Full Name"
                     required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={tempObj.name}
+                    onChange={(e) =>
+                      setTempObj({ ...tempObj, name: e.target.value })
+                    }
                   />
                 </div>
                 <div className="hero__modal-input-box">
@@ -77,9 +80,11 @@ const EditModal = () => {
                     className="hero__modal-input edit-email"
                     name="email"
                     placeholder="Email"
-                    value={email}
+                    value={tempObj.email}
                     required
-                    onChange={(e) => selEmail(e.target.value)}
+                    onChange={(e) =>
+                      setTempObj({ ...tempObj, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="hero__modal-input-box">
@@ -89,8 +94,10 @@ const EditModal = () => {
                     name="phone"
                     placeholder="Phone"
                     required
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
+                    value={tempObj.number}
+                    onChange={(e) =>
+                      setTempObj({ ...tempObj, number: e.target.value })
+                    }
                   />
                 </div>
                 <div className="hero__modal-input-box">
@@ -143,13 +150,17 @@ const EditModal = () => {
                     </label>
                   </div>
                 </div>
-                {/* <div>
+                <div>
                   <input
                     className="form-control input-department edit-department"
                     list="datalistOptions"
                     id="exampleDataList"
                     placeholder="Department"
                     required
+                    value={tempObj.department}
+                    onChange={(e) =>
+                      setTempObj({ ...tempObj, department: e.target.value })
+                    }
                   />
                   <datalist id="datalistOptions">
                     <option value="None"></option>
@@ -158,7 +169,7 @@ const EditModal = () => {
                     <option value="Accounting"></option>
                     <option value="HR"></option>
                   </datalist>
-                </div> */}
+                </div>
                 <div className="date-class">
                   <input type="date" defaultValue="2017-06-01" />
                 </div>

@@ -15,10 +15,11 @@ const employeeSlice = createSlice({
     },
     editEmployee : (state, action) => {
       state.filter(item => {
-        if(item.id === action.payload.elId){
-          item.name = action.payload.elName
-          item.email = action.payload.elEmail
-          item.number = action.payload.elNumber
+        if(item.id === action.payload.obj.id){
+          item.name = action.payload.obj.name
+          item.email = action.payload.obj.email
+          item.number = action.payload.obj.number
+          item.department = action.payload.obj.department
         }
       })
     }

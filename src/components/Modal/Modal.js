@@ -2,35 +2,38 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployee } from "../../store/EployeeSlice";
 const Modal = () => {
-
   const dispatch = useDispatch();
 
-  const employee = useSelector(state => state.employee);
+  const employee = useSelector((state) => state.employee);
 
   let [tempObj, setTempObj] = useState({
-    id : employee.length + 1,
-    name : "",
-    email : "",
-    number : "",
+    id: employee.length + 1,
+    name: "",
+    email: "",
+    number: "",
+    department: "",
   });
 
-  const addHandler = () => {
-    dispatch(
-      addEmployee({obj : tempObj})
-    )
-  }
+  const addHandler = (e) => {
+    e.preventDefault();
+    dispatch(addEmployee({ obj: tempObj }));
+  };
 
   const nameHandler = (e) => {
-    setTempObj({...tempObj, name : e.target.value})
-  }
+    setTempObj({ ...tempObj, name: e.target.value });
+  };
 
   const emailHandler = (e) => {
-    setTempObj({...tempObj, email : e.target.value})
-  }
-  
+    setTempObj({ ...tempObj, email: e.target.value });
+  };
+
+  const departHandler = (e) => {
+    setTempObj({ ...tempObj, department: e.target.value });
+  };
+
   const phoneHandler = (e) => {
-    setTempObj({...tempObj, number : e.target.value});
-  }
+    setTempObj({ ...tempObj, number: e.target.value });
+  };
 
   return (
     <div>
@@ -153,8 +156,9 @@ const Modal = () => {
                       </label>
                     </div>
                   </div>
-                  {/* <div>
+                  <div>
                     <input
+                      onChange={departHandler}
                       className="form-control input-department"
                       list="datalistOptions"
                       id="exampleDataList"
@@ -168,7 +172,7 @@ const Modal = () => {
                       <option value="Accounting"></option>
                       <option value="HR"></option>
                     </datalist>
-                  </div> */}
+                  </div>
                   <div className="date-class">
                     <input type="date" defaultValue="2017-06-01" />
                   </div>
