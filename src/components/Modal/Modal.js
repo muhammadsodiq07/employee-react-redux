@@ -1,39 +1,54 @@
 import React, { useState } from "react";
+import "./Modal.scss"
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployee } from "../../store/EployeeSlice";
+
+
 const Modal = () => {
+
   const dispatch = useDispatch();
 
   const employee = useSelector((state) => state.employee);
+  let [isValidName, setValidName] = useState(false)
+  let [isValidEmail, setValidEmail] = useState(false)
+  let [isValidNumber, setValidNumber] = useState(false)
 
-  let [tempObj, setTempObj] = useState({
-    id: +employee.length + 2,
+
+
+  let [userInfo, setUserInfo] = useState({
+    id: '',
     name: "",
     email: "",
     number: "",
     department: "",
   });
 
-  const addHandler = (e) => {
-    e.preventDefault();
-    dispatch(addEmployee({ obj: tempObj }));
-  };
+  const addHandler = () => {
+    dispatch(
+      addEmployee({obj: userInfo})
+    )
+  }
 
-  const nameHandler = (e) => {
-    setTempObj({ ...tempObj, name: e.target.value });
-  };
+  const nameHandler = (e) =>{
+    e === '' ? setValidName(true) : setValidName(false)
+    setUserInfo({...userInfo, id: employee.length+1, name: e})
+  }
 
-  const emailHandler = (e) => {
-    setTempObj({ ...tempObj, email: e.target.value });
-  };
+  const emailHandler = (e) =>{
+    !e.includes('@') ? setValidEmail(true) : setValidEmail(false)
+    setUserInfo({...userInfo, email: e})
+  }
 
-  const departHandler = (e) => {
-    setTempObj({ ...tempObj, department: e.target.value });
-  };
+  const numberHandler = (e) =>{
+    e.length < 10 ? setValidNumber(true) : setValidNumber(false)
+    setUserInfo({...userInfo, number: e})
+  }
+ 
+  const onSubmitHandle = (e) =>{
+   e.preventDefault()
+   e.target.reset()
+  }
 
-  const phoneHandler = (e) => {
-    setTempObj({ ...tempObj, number: e.target.value });
-  };
 
   return (
     <div>
@@ -62,7 +77,7 @@ const Modal = () => {
               </div>
             </div>
             <div className="modal-body">
-              <form className="inner-modal-form d-flex">
+              <form  onSubmit={onSubmitHandle} className="inner-modal-form d-flex">
                 <div className="hero__modal-box col-6">
                   <div className="hero__modal-input-box">
                     <input
@@ -71,9 +86,10 @@ const Modal = () => {
                       name="full name"
                       placeholder="Full Name"
                       required
-                      onChange={nameHandler}
-                    />
-                    <p className="name-hint hint" />
+                      onChange={(e) => nameHandler(e.target.value)}/>
+                       <p style={{display: isValidName ? 'block' : 'none'}}  className="m-0 error-text p-0 mb-2">
+                      Name is required
+                     </p>
                   </div>
                   <div className="hero__modal-input-box">
                     <input
@@ -82,9 +98,10 @@ const Modal = () => {
                       name="email"
                       placeholder="Email"
                       required
-                      onChange={emailHandler}
-                    />
-                    <p className="email-hint hint" />
+                      onChange={(e) => emailHandler(e.target.value)}/>
+                     <p style={{display: isValidEmail ? 'block' : 'none'}} className="m-0 name-warning error-text p-0 mb-2">
+                        Use @
+                      </p>
                   </div>
                   <div className="hero__modal-input-box">
                     <input
@@ -93,9 +110,11 @@ const Modal = () => {
                       name="phone"
                       placeholder="Phone"
                       required
-                      onChange={phoneHandler}
-                    />
-                    <p className="phone-hint hint" />
+                      onChange={(e) => numberHandler(e.target.value) }/>
+                    
+                    <p style={{display: isValidNumber ? 'block' : 'none'}} className="m-0 name-warning error-text p-0 mb-2">
+                        More than 10 number
+                      </p>
                   </div>
                   <div className="hero__modal-input-box">
                     <input
@@ -158,7 +177,7 @@ const Modal = () => {
                   </div>
                   <div>
                     <input
-                      onChange={departHandler}
+                       onChange={(e) => setUserInfo({...userInfo, department: e.target.value})}
                       className="form-control input-department"
                       list="datalistOptions"
                       id="exampleDataList"
@@ -194,7 +213,7 @@ const Modal = () => {
                   </div>
                   <div>
                     <button
-                      onClick={addHandler}
+                         onClick={addHandler}
                       type="submit"
                       className="modal-submit-btn"
                       data-bs-dismiss="modal"

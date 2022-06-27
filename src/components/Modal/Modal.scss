@@ -1,0 +1,12 @@
+.error-text{
+  font-size: 13px;
+  color: red;
+}
+.name-warning {
+  font-size: 13px;
+  color: red;
+}
+.error-text:not(:last-child){
+  position: relative;
+  top: -12px;
+}

@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import "./Hero.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelEmployee } from "../../store/EployeeSlice";
 import EditModal from "../EditModal/EditModal";
+import Pagination from "../../Pagnition";
 
-const Hero = () => {
-  
+const Hero = ({
+  pagnitionCount,
+  setPagnitionCount,
+  pagnitionID,
+  setPagnitionID,
+  setSearch,
+  search,
+}) => {
+  const employee = useSelector((state) => state.employee);
   const dispatch = useDispatch();
 
   const [id, setId] = useState();
 
   const idEditHandler = (elId) => {
     setId(elId);
-  }
+  };
 
   const cancelHandler = (elId) => {
     dispatch(cancelEmployee({ id: elId }));
   };
 
-  const employee = useSelector((state) => state.employee);
+  useEffect(() => {
+    setSearch(employee);
+  }, [employee]);
+
+  const searchHandler = (e) => {
+    setSearch(
+      employee.filter((item) =>
+        item.name.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
+  };
 
   return (
     <div className="hero__right">
@@ -53,6 +71,7 @@ const Hero = () => {
               </label>
               <i className="bx bx-search-alt-2" />
               <input
+                onChange={searchHandler}
                 className="hero__searh-input-real"
                 type="text"
                 name="search"
@@ -103,7 +122,11 @@ const Hero = () => {
               </tr>
             </thead>
             <tbody className="hero__tbody">
-              {employee.map((item) => {
+              {search.map((item, i) => {
+                if (
+                  pagnitionID <= i + 1 &&
+                  pagnitionCount + pagnitionID > i + 1
+                ) {
                 return (
                   <>
                     <tr id={item.id} key={`m` + item}>
@@ -121,26 +144,31 @@ const Hero = () => {
                           >
                             <i className="bx bx-pencil" />
                           </button>
-                          <button
-                            className="hero__close"
-                          >
-                            <i 
-                            onClick={() => cancelHandler(item.id)}
-                            className="bx bx-x" />
+                          <button className="hero__close">
+                            <i
+                              onClick={() => cancelHandler(item.id)}
+                              className="bx bx-x"
+                            />
                           </button>
                         </div>
                       </td>
                     </tr>
                   </>
                 );
+                }
               })}
             </tbody>
           </table>
         </div>
       </div>
       <Modal />
-      <EditModal id={id}
-      setId={setId}
+      <EditModal id={id} setId={setId} />
+      <Pagination  
+        pagnitionCount={pagnitionCount}
+        setPagnitionCount={setPagnitionCount}
+        pagnitionID={pagnitionID}
+        setPagnitionID={setPagnitionID}
+        search={search}
       />
     </div>
   );

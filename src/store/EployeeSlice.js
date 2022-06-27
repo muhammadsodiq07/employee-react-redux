@@ -11,8 +11,7 @@ const employeeSlice = createSlice({
       return state.filter(item => item.id !== action.payload.id);
     },
     addEmployee : (state, action) => {
-      // return [action.payload.obj, ...state];
-      state.unshift(action.payload.obj);
+      return [action.payload.obj, ...state];
     },
     editEmployee : (state, action) => {
       state.filter(item => {
