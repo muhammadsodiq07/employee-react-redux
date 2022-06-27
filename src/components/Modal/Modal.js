@@ -7,7 +7,7 @@ const Modal = () => {
   const employee = useSelector((state) => state.employee);
 
   let [tempObj, setTempObj] = useState({
-    id: employee.length + 1,
+    id: +employee.length + 2,
     name: "",
     email: "",
     number: "",

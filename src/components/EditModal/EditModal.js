@@ -21,7 +21,7 @@ const EditModal = ({ id, setId }) => {
     employee.filter((item) => {
       if (+item.id === +id) {
         setTempObj({
-          id: item.id,
+          id: +item.id,
           name: item.name,
           email: item.email,
           number: item.number,
