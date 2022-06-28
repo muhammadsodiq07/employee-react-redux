@@ -43,7 +43,7 @@ const Modal = () => {
     e.length < 10 ? setValidNumber(true) : setValidNumber(false)
     setUserInfo({...userInfo, number: e})
   }
- 
+
   const onSubmitHandle = (e) =>{
    e.preventDefault()
    e.target.reset()
@@ -111,7 +111,7 @@ const Modal = () => {
                       placeholder="Phone"
                       required
                       onChange={(e) => numberHandler(e.target.value) }/>
-                    
+
                     <p style={{display: isValidNumber ? 'block' : 'none'}} className="m-0 name-warning error-text p-0 mb-2">
                         More than 10 number
                       </p>
@@ -235,3 +235,5 @@ const Modal = () => {
 };
 
 export default Modal;
+
+
